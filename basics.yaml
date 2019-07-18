@@ -1,0 +1,155 @@
+---
+swagger: '2.0'
+info:
+  description: |-
+    <h2> Developers use our APIs to build T-Mobile functionality into their software products and to integrate with T-Mobile systems.</h2>
+    # T-Mobile API Overview
+    T-Mobile APIs give you access to a set of secure domain API features for use in your own app. They strive to be <a href=http://en.wikipedia.org/wiki/Representational_state_transfer target='_blank'>RESTful</a> and are organized around the main resources from the T-Mobile Domains. OAuth 2.0 is used as the API Authorization framework.
+
+    # API Security and Access
+    T-Mobile APIs use the OAuth 2.0 Protocol to authorize calls. OAuth is an industry-standard open standard for authorization used by many companies to provide secure access to protected resources.
+    
+    <b>OAuth 2.0 Authentication Flow</b>
+
+    Here is an overview of the T-Mobile API authentication flow:
+
+    ![OAuthFlow Image](https://developer.t-mobile.com/sites/default/files/OAuthFlow.png)
+    
+    <b>API Request Authentication And Access Token</b>
+    
+    To obtain an access token for an application, the developer should call the ‘/v1/oauth2/token’ token API. The token API authenticates incoming request using HTTP Basic Auth with OAuth grant type as “client_credentials”.
+    
+    <b>Request format:</b>
+    
+    *https://api.t-mobile.com/v1/oauth2/accesstoken?grant_type=client_credentials -H "authorization: Basic &lt;YOUR BASE64 encoded &lt;Client-Id&gt;:&lt;Secret&gt;&gt;"*
+    
+    <b>Sample Request:</b>
+    
+    *curl -X GET https://api.t-mobile.com/v1/oauth2/accesstoken?grant_type=client_credentials -H "authorization: Basic VkxFTld3d0UmdvR3RNHV0SEFYbjJUQ2dxd3dUSw"*
+    
+    <b>Sample Response:</b>\
+    {\
+       &nbsp;&nbsp;&nbsp;&nbsp;"issued_at": "1492119111853",\
+       &nbsp;&nbsp;&nbsp;&nbsp;"scope": "",\
+       &nbsp;&nbsp;&nbsp;&nbsp;"expires_in": "3599",\
+       &nbsp;&nbsp;&nbsp;&nbsp;"token_type": "BearerToken",\
+       &nbsp;&nbsp;&nbsp;&nbsp;"access_token": "r4KHptxVij8Dkf8hkTkmMQF0xFRo",\
+       &nbsp;&nbsp;&nbsp;&nbsp;"refresh_token_expires_in": "0"\
+    }
+    
+    T-Mobile issued access tokens can be used to access all APIs. Tokens have a finite lifetime. A partner app can keeping track of the ‘expires_in’ value returned in the response from the token API. Expired or unauthorized token get '401: Unauthorized error' response. The default token TTL (Time-To-Live) is 1 hour.
+
+     Once authenticated using the above token API, every API request must pass in the access_token value in the API request header with the header element <b>*Authorization:Bearer &lt;access_token value&gt;*</b>.
+    
+    <b>Sample Request:</b>
+    
+    *curl -X GET https://api.t-mobile.com/v1/customer/12344343 -H <b>"Authorization:Bearer elwhf280dkj3098usdlkf0309erfjw"</b> -H "applicationUserId:tester" -H "activityId:09iej390ui90u" -H "sessionId: lierj890" -H "dealerCode: 12321312"*
+    
+    To get the Basic authentication credentials to access the Oauth API you need to create or register for an app in Apigee. For any assistance with permission to Apigee you can contact apigeecm@t-mobile.com.
+
+    # Input/Output Format
+    Both the request body and response data are formatted as <a href=http://www.json.org/ target='_blank'>JSON</a>.
+    # Date Format
+    All timestamps (both those sent in requests and those returned in responses) should be formatted as shown in our API examples. We support <a href=https://www.ietf.org/rfc/rfc3339.txt target='_blank'>RFC 3339</a> timestamps. The preferred way to pass in a date is by converting the time to UTC such as this: `2013-04-17T09:12:36-00:00`.
+    In cases where timestamps are rounded to a given day, you may omit the time component, so instead of `2013-04-17T13:35:01+05:00` you can use `2013-04-17`. However, if a time and not just a date is specified in a request then the calendar date in the Pacific timezone at the moment specified is the day that is accepted.
+    T-Mobile supports the subset of dates after the start of the <a href=http://en.wikipedia.org/wiki/Unix_time#Encoding_time_as_a_number target='_blank'>Unix epoch</a>: `1970-01-01T00:00:00+00:00` (00:00:00 UTC on January 1, 1970).
+    # CORS
+    <a href=http://en.wikipedia.org/wiki/Cross-origin_resource_sharing target='_blank'>CORS</a>, or cross-origin resource sharing, is a mechanism that allows a web page to make XMLHttpRequests to another domain (i.e. a domain different from the one it was loaded from). CORS is supported in a <a href=http://caniuse.com/cors target='_blank'>specific set of modern browsers</a>. T-Mobile APIs support CORS on an app-by-app basis. You can add a comma separated list of origins that can make CORS requests to the API.
+    
+    **CORS-Like Errors**
+    
+    Some browsers will return a CORS-like error even when CORS is enabled for your application. In these scenarios, an HTTP response code will often be included (e.g. 400 or 401) which will provide further troubleshooting direction.
+    # Pagination
+    APIs that can return large numbers of objects return the results using a paging mechanism. Some APIs use offset based paging and some use marker-based paging.
+    ## Offset based paging
+    APIs that use offset-based paging use the `offset` and `limit` query parameters. The API returns an object that contains the set of results in the `entries` array, as well as returning the `offset`, `limit`, and `total_count` fields.
+    To fetch the first set of entries, call the API with `offset = 0` and limit = `<your-limit`>.
+    To fetch the next set of entries, call the API with `offset = <previous-offset> + <previous-limit>`. Note that you should increment the offset by the previous `limit`, not by the size of the `entries` array (which may be less than limit). Use the value of limit that is returned in the response object rather than the value you passed in the query parameter.
+    If `<previous-offset> + <previous-limit> >= total_count`, then you have retrieved all of the entries and there are no more to fetch. The total number of entries in the entire collection may be less than `total_count`. Note that the `total_count` may change between API calls, so always use the most recent value.
+
+    **Query Parameters:**
+    | Name     | Type | Description   |
+    | :------- | ----: | :--- |
+    | offset | integer |  The 0-based offset of the first entry to return. The default is 0.    |
+    | limit    | integer   |  The maximum number of entries to return. Each API has a default and maximum value. If the value exceeds the maximum, then the maximum value will be used and returned in the `limit` field in the response.   |
+    **Response Object:**
+    | Name     | Type | Description   |
+    | :------- | ----: | :--- |
+    | entries | array |  The array of objects for the current set of results. It will be an empty array if there are no results.    |
+    | offset    | integer   |  The 0-based `offset` of the first entry in this set. This will be the same as the offset query parameter.  |
+    | limit    | integer   |  The `limit` that was used for these entries. This will be the same as the limit query parameter unless that value exceeded the maximum value allowed. The maximum value varies by API.   |
+    | total_count    | integer   |  One greater than the offset of the last entry in the entire collection. The total number of entries in the collection may be less than `total_count`.   |
+
+    # Errors
+    T-Mobile APIs communicate errors through <a href=http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html target='_blank'>standard HTTP status codes</a> with details supplied in JSON objects. Generally the following pattern applies:
+     - 2xx - Received, understood, and accepted a request.
+     - 3xx - The user agent must take further action in order to complete the request.
+     - 4xx - An error occurred in handling the request. The most common cause of this error is an invalid parameter.
+     - 5xx- Received and accepted the request, but an error occurred in the T-Mobile service while handling it.
+    ## HTTP Status Codes
+    **Codes**
+       - 200 success
+       - 201 created
+       - 202 accepted
+       - 204 no_content
+       - 302 redirect
+       - 304 not_modified
+       - 400 bad_request
+       - 401 unauthorized
+       - 403 forbidden
+       - 404 not_found
+       - 405 method_not_allowed
+       - 409 conflict
+       - 412 precondition_failed
+       - 429 too_many_requests
+       - 500 internal_server_error
+       - 503 unavailable
+
+    **Error Code Response**
+    | Name     | Type | Description   |
+    | :------- | :---- | :--- |
+    | errors | array |  The array of error objects |
+    | error    | object   |  Error object   |
+    | code    | string   |  A specific T-Mobile error code listed below   |
+    | userMessage    | string   |  A human-readable message describing the error.   |
+    | systemMessage    | string   |  Backend system error message.   |
+    ## Detailed Error Codes
+    The following table lists the most common error responses you are likely to see when developing T-Mobile applications. This list is not exhaustive; additional errors can occur.
+    
+    **Customer Domain**
+    | Code     | Domain | Description   |
+    | :------- | :---- | :--- |
+    | CUSTOMER-1001 | CUSTOMER |  Customer Financial account not found |
+    | CUSTOMER-1002    | CUSTOMER  |  Customer MSISDN not found   |
+    | CUSTOMER-1003    | CUSTOMER  |  Port-in for MSISDN ongoing   |
+    | CUSTOMER-1003  | string   |  Customer line of service not found   |
+    | CUSTOMER-1004 | string   |  Customer line of service not found   |
+    **Payment Domain**
+    | Code     | Domain | Description   |
+    | :------- | :---- | :--- |
+    | REVENUE-000 | Payment |  System not available. Please try again |
+    | REVENUE-001    | Payment  |  Parameter (name) is required   |
+    | REVENUE-002    | Payment |  Parameter (name) exceeds max length of (value)   |
+    | REVENUE-003  | Payment |  Parameter (name) is not a valid (value)   |
+    | REVENUE-004 | Payment |  Parameter (name) is invalid. Valid values are (valid values)   |
+   
+  version: '1.0'
+  title: T-Mobile API Basics
+  contact:
+    name: T-Mobile API Support
+    url: http://www.t-mobile.com/contact
+    email: integrations@T-Mobile.com
+  license:
+    name: T-Mobile
+    url: https://t-mobile.com/api/license/
+  termsOfService: https://www.t-mobile.com/terms/
+paths: {}
+securityDefinitions:
+  Oauth:
+    type: "oauth2"
+    description: "To get an API key and secret to access the Oauth API, you need to create or register for an app in Apigee management. For any assistance with permission to apigee you can contact apigeecm@t-mobile.com"
+    tokenUrl: "https://tmobileb-sb02.apigee.net/v1/oauth2/accesstoken?grant_type=client_credentials"
+    flow: "application"
+    scopes:
+      write:loan: Create a new loan ID
+      read:loan: Get current loan amount details

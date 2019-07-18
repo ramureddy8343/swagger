@@ -1,0 +1,570 @@
+swagger: '2.0'
+info:
+  title: Financial Account
+  description: >-
+    This swagger contains the specification of all the API operation that are
+    applicable for Financial Account in Digital Billing.
+  version: 1.0.0
+  contact:
+    name: Rahul Jaiswal
+    email: rahul.jaiswal1@t-mobile.com
+  license:
+    name: Proprietary software
+    url: 'https://en.wikipedia.org/wiki/Proprietary_software'
+  termsOfService: >-
+    https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions
+  x-createdBy:
+    dateCreated: 'Sat Jan  5 00:52:02 2019'
+    createdBy: rjaiswa1
+    application: Recite
+    appVersion: 0.4.1.2721
+    documentId: cfb7764e-2ead-4645-b3a7-f345a208035a
+    status: Conceptual -Initial
+    classification: 7.0 Billing & Charging Management
+    profile: Core Business Capability Service
+    serviceLayer: Enterprise - Billing
+tags:
+  - name: Modify Waiver Details
+    description: This API is used to update waiver details of financial account.
+host: dev01.api.t-mobile.com
+basePath: /invoice/v1/invoices
+schemes:
+  - https
+paths:
+  /invoice/v1/invoices/ibilling:
+    post:
+      tags:
+        - Get ibilling indicator
+      x-api-pattern: ExecuteFunction
+      summary: Retrieve ibilling indicator for list of bans
+      description: This API used for retrieve ibilling indicator for list of bans
+      operationId: ibillingindicatorssearch
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: ibillingIndicatorRequest
+          in: body
+          description: Request object for ibilling Indicator request
+          required: true
+          schema:
+            $ref: '#/definitions/IbillingIndicatorRequest'
+          x-example:
+            financialAccountNumbers:
+              - MTIzNDU2Nzc3
+              - MTIzNDU2Nzk5
+        - name: Accept
+          in: header
+          description: Preferred content type _ default to application/json
+          x-example: application/json
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[ \S]+$'
+        - name: Authorization
+          in: header
+          description: >-
+            The HTTP Authorization request header contains the credentials to
+            authenticate a user agent with a server.
+          x-example: Bearer mF_9.B5f-4.1JqM
+          required: true
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]+$'
+        - name: Content-Type
+          in: header
+          description: The MIME type of this content
+          x-example: text/xml
+          required: true
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[ \S]+$'
+        - name: Date
+          in: header
+          description: >-
+            The Date general HTTP header contains the date and time at which the
+            message was originated.
+          x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+          required: false
+          type: string
+          format: date-time
+          pattern: >-
+            ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+            (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+            [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+        - name: activity-id
+          in: header
+          description: >-
+            Unique id alphanumeric value generated and sent by the partner to
+            identify every the service request uniquely. Sample:
+            XyzA:D1s5s1i-X6AFRvfiPBfs-1234  Pass as is to downstream calls.
+          x-example: c34e7acd-384b-4c22-8b02-ba3963682508
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: interaction-id
+          in: header
+          description: >-
+            Alphanumeric value represent a common transaction id across all
+            calls made from UI, while completing all business activity needs of
+            a particular customer.
+          x-example: cc688d54-50d1-49d4-8c5d-95459d1172e8
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: service-transaction-id
+          in: header
+          description: Request ID echoed back by server
+          x-example: '23409209723'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: session-id
+          in: header
+          description: >-
+            A value populated by the sender used to track the transactions that
+            occur during a session, a long-lasting interaction that ismaintained
+            by the sender.
+          x-example: 350b91ec-4a64-4b10-a3f3-a78c8db3924a
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: timestamp
+          in: header
+          description: ms since 1/1/70 adjusted to GMT
+          x-example: '1524599536'
+          required: false
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 999999999999
+          pattern: '^[\d]*$'
+        - name: workflow-id
+          in: header
+          description: Business Use Case
+          x-example: ACTIVATION
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: x-auth-originator
+          in: header
+          description: API chain initiating callers access token
+          x-example: c34e7acd-384b-4c22-8b02-ba3963682508
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: x-authorization
+          in: header
+          description: Contains Proof of Possession token generated by API caller
+          x-example: c34e7acd-384b-4c22-8b02-ba3963682508
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/IbillingResponse'
+          examples:
+            application/json:
+              ibillingStatusList:
+                - financialAccountNumber: '123456789'
+                  ibillingIndicator: 'YES'
+                  enrollmentDateTime: '2019-01-29T12:45:41.777Z'
+                  billLanguage: English
+                - financialAccountNumber: '123456788'
+                  ibillingIndicator: 'YES'
+                  enrollmentDateTime: '2019-01-29T12:45:41.777Z'
+                  billLanguage: Spanish
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            Content-Encoding:
+              description: The type of encoding used on the data
+              x-example: 'gzip,deflate'
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            Content-Language:
+              description: >-
+                The natural language or languages of the intended audience for
+                the enclosed content
+              x-example: da
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S ]*$'
+            Content-Length:
+              description: >-
+                Length of the response body in octets; not supported if
+                Transfer-Endoding = chunked
+              x-example: '9112300000003'
+              type: integer
+              format: int64
+              minimum: 0
+              pattern: '^[\d]*$'
+            Content-Type:
+              description: The MIME type of this content
+              x-example: text/xml
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[ \S]+$'
+            Date:
+              description: >-
+                The Date general HTTP header contains the date and time at which
+                the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            ETag:
+              description: >-
+                The ETag header specifies the unique entity tag value for the
+                returned resource.
+              x-example: '*'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            Last-Modified:
+              description: >-
+                The Last-Modified entity-header field indicates the date and
+                time at which the origin server believes the variant was last
+                modified.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            Transfer-Encoding:
+              description: >-
+                The form of encoding used to safely transfer the entity to the
+                user. Currently defined methods are: chunked, compress, deflate,
+                gzip, identity.
+              x-example: chunked
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+        '207':
+          description: Multi-Status
+          schema:
+            $ref: '#/definitions/IbillingResponse'
+          examples:
+            application/json:
+              ibillingStatusList:
+                - financialAccountNumber: '123456789'
+                  ibillingIndicator: 'YES'
+                  enrollmentDateTime: '2019-01-29T12:45:41.777Z'
+                  billLanguage: English
+                - financialAccountNumber: '123456788'
+                  ibillingIndicator: 'YES'
+                  enrollmentDateTime: '2019-01-29T12:45:41.777Z'
+                  billLanguage: Spanish
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            Content-Encoding:
+              description: The type of encoding used on the data
+              x-example: 'gzip,deflate'
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            Content-Language:
+              description: >-
+                The natural language or languages of the intended audience for
+                the enclosed content
+              x-example: da
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S ]*$'
+            Content-Length:
+              description: >-
+                Length of the response body in octets; not supported if
+                Transfer-Endoding = chunked
+              x-example: '9112300000003'
+              type: integer
+              format: int64
+              minimum: 0
+              pattern: '^[\d]*$'
+            Content-Type:
+              description: The MIME type of this content
+              x-example: text/xml
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[ \S]+$'
+            Date:
+              description: >-
+                The Date general HTTP header contains the date and time at which
+                the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            ETag:
+              description: >-
+                The ETag header specifies the unique entity tag value for the
+                returned resource.
+              x-example: '*'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            Last-Modified:
+              description: >-
+                The Last-Modified entity-header field indicates the date and
+                time at which the origin server believes the variant was last
+                modified.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            Transfer-Encoding:
+              description: >-
+                The form of encoding used to safely transfer the entity to the
+                user. Currently defined methods are: chunked, compress, deflate,
+                gzip, identity.
+              x-example: chunked
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '403':
+          description: Client access denied
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '403'
+              userMessage: Client access denied
+              systemMessage: Client access denied
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Allow:
+              description: list of supported methods for URI
+              x-example: GET
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            service-transaction-id:
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '415':
+          description: Unsupported Media Type
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '415'
+              userMessage: Unsupported Media Type
+              systemMessage: Unsupported Media Type
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '500':
+          description: System Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+      security:
+        - oauth2: []
+definitions:
+  IbillingIndicatorRequest:
+    type: object
+    description: Request object for ibilling Indicator request
+    example:
+      financialAccountNumbers:
+        - MTIzNDU2Nzc3
+        - MTIzNDU2Nzk5
+    properties:
+      financialAccountNumbers:
+        description: An array of financialAccountNumbers objects.
+        type: array
+        minItems: 1
+        maxItems: 20
+        items:
+          type: string
+          description: A single instance of the financialAccountNumbers object.
+  IbillingResponse:
+    type: object
+    description: Response object for ibilling request.
+    properties:
+      ibillingStatusList:
+        description: An array of ibillingStatusList objects.
+        type: array
+        maxItems: 20
+        items:
+          $ref: '#/definitions/IbillingStatusList'
+  IbillingStatusList:
+    type: object
+    description: returned list of enrolments indicators per ban .
+    required:
+      - financialAccountNumber
+    properties:
+      financialAccountNumber:
+        description: financialAccountNumber
+        type: string
+      ibillingIndicator:
+        description: ibilling enrolment indicator for ASCII format bill
+        type: string
+        enum:
+          - 'YES'
+          - 'NO'
+      enrollmentDateTime:
+        description: This is effective date and time of enrollment.
+        type: string
+      billLanguage:
+        description: bill language - English or Spanish
+        type: string
+        enum:
+          - English
+          - Spanish
+  Error:
+    type: object
+    description: >-
+      As defined in
+      http://api-standards.apps.px-npe01.cf.t-mobile.com/http/status-codes/error-response-format/
+    required:
+      - code
+      - userMessage
+    properties:
+      code:
+        description: >-
+          A succinct, domain-specific, human-readable text string to identify
+          the type of error for the given status code
+        example: ProductNotFound
+        type: string
+        pattern: '^[\S ]+$'
+      userMessage:
+        description: A human-readable message describing the error.
+        example: Failed to find product.
+        type: string
+        pattern: '^[\S ]+$'
+      systemMessage:
+        description: Text that provides a more detailed technical explanation of the error
+        example: PRODUCT_NOT_FOUND
+        type: string
+      detailLink:
+        description: link to custom information providing greater detail on error or errors
+        example: 'http://aaa.bbb.ccc/'
+        type: string
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    description: oauth2 Authentication
+    tokenUrl: 'https://host:env/v1/oauth2/accesstoken?grant_type=client_credentials'
+    flow: application
+    scopes: {}
+security:
+  - oauth2: []
