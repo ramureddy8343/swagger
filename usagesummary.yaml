@@ -1,0 +1,636 @@
+swagger: '2.0'
+info:
+  title: Get Usage Summary
+  description: These APIs retrieves usage summary and usage details.
+  version: 1.0.0
+  contact:
+    name: Amdocs Digital Billing
+    url: 'http://www.t-mobile.com'
+    email: Hila.Habibi2@t-mobile.com
+  license:
+    name: Proprietary software
+    url: 'https://en.wikipedia.org/wiki/Proprietary_software'
+  termsOfService: >-
+    https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions
+  x-createdBy:
+    dateCreated: 'Thu Feb 28 10:55:30 2019'
+    createdBy: Hila Habibi
+    profile: Micro Services
+    serviceLayer: Usage Management
+x-servers:
+  - url: 'http://127.0.0.1/'
+    description: Test Server 1
+tags:
+  - name: Usage Management
+    description: These APIs Retrieves Usage Information
+host: dev01.api.t-mobile.com
+basePath: /usage/v1/usage
+schemes:
+  - https
+paths:
+  /summary:
+    post:
+      x-api-pattern: ExecuteFunction
+      tags:
+        - usage-summary
+      summary: Get User Bucket Summary.
+      description: >-
+        Retrieves buckets for a specific mobile number or financial account
+        number level.
+      operationId: getUsageSummary
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/header-X-Authorization'
+        - $ref: '#/parameters/header-X-Auth-Originator'
+        - $ref: '#/parameters/header-session-id'
+        - $ref: '#/parameters/header-interaction-id'
+        - $ref: '#/parameters/header-workflow-id'
+        - $ref: '#/parameters/header-service-transaction-id'
+        - $ref: '#/parameters/header-activity-id'
+        - $ref: '#/parameters/header-Accept'
+        - $ref: '#/parameters/header-Accept-Charset'
+        - $ref: '#/parameters/header-Accept-Encoding'
+        - $ref: '#/parameters/header-Accept-Language'
+        - $ref: '#/parameters/header-Authorization'
+        - $ref: '#/parameters/header-Content-Type'
+        - $ref: '#/parameters/header-Date'
+        - $ref: '#/parameters/header-If-Modified-Since'
+        - $ref: '#/parameters/header-If-None-Match'
+        - $ref: '#/parameters/header-timestamp'
+        - name: usageSummaryRequest
+          in: body
+          description: >-
+            Input to get usage summary for a specific financial account number
+            and mobile numbers.
+          required: true
+          schema:
+            $ref: '#/definitions/UsageSummaryRequest'
+      responses:
+        '200':
+          description: List of all usages for the given inputs.
+          schema:
+            $ref: '#/definitions/UsageSummaryList'
+          examples:
+            application/json:
+              usageSummaryList:
+                - mobileNumber:
+                    mobileNumber: 3476838911
+                    productType: G
+                  pooled:
+                    - units: messages
+                      typeDescription: MMS messages
+                      total: null
+                      usage: 2
+                      remaining: null
+                      percentage: null
+                      isUnlimited: true
+                  nonPooled:
+                    - units: minutes
+                      typeDescription: Mobile to mobile
+                      total: null
+                      usage: 0
+                      remaining: null
+                      percentage: null
+                      isUnlimited: true
+                    - units: mb
+                      typeDescription: GPRS data
+                      total: null
+                      usage: 100.2778
+                      remaining: null
+                      percentage: null
+                      isUnlimited: true
+                  overage:
+                    - overUsage: 102
+                      units: minutes
+                      typeDescription: Voice
+                      charge: 0
+                    - overUsage: null
+                      units: not-available
+                      typeDescription: Long Distance/Toll/International
+                      charge: 27
+          headers:
+            Content-Type:
+              description: The MIME type of this content.
+              x-example: text/xml
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[ \S]+$'
+            Date:
+              description: >-
+                The Date general HTTP header contains the date and time at which
+                the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+          headers:
+            Allow:
+              description: list of supported methods for URI
+              x-example: GET
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '409'
+              userMessage: Conflict
+              systemMessage: >-
+                The request could not be completed due to a conflict with the
+                current state of the resource.
+        '415':
+          description: Unsupported Media Type
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '415'
+              userMessage: Unsupported Media Type
+              systemMessage: Unsupported Media Type
+        '500':
+          description: System Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+      security:
+        - oauth2: []
+definitions:
+  Error:
+    type: object
+    description: >-
+      As defined in
+      http://api-standards.apps.px-npe01.cf.t-mobile.com/http/status-codes/error-response-format/
+    required:
+      - code
+      - userMessage
+    properties:
+      code:
+        description: >-
+          A succinct, domain-specific, human-readable text string to identify
+          the type of error for the given status code
+        example: ProductNotFound
+        type: string
+        pattern: '^[\S ]+$'
+      userMessage:
+        description: A human-readable message describing the error.
+        example: Failed to find product.
+        type: string
+        pattern: '^[\S ]+$'
+      systemMessage:
+        description: Text that provides a more detailed technical explanation of the error
+        example: PRODUCT_NOT_FOUND
+        type: string
+      detailLink:
+        description: link to custom information providing greater detail on error or errors
+        example: 'http://aaa.bbb.ccc/'
+        type: string
+  UsageSummaryRequest:
+    type: object
+    description: >-
+      Input to get usage summary for a specific financial account number and
+      mobile numbers.
+    required:
+      - financialAccountNumber
+      - billedInd
+      - cycleCode
+      - billSequenceNumber
+      - period
+    xml:
+      name: UsageSummaryRequest
+    properties:
+      financialAccountNumber:
+        description: The financial account number
+        type: string
+        maxLength: 9
+        example: '123456789'
+        pattern: '^(\d{9})$'
+      mobileNumbers:
+        type: array
+        description: Array that holds mobile numbers and their product type
+        items:
+          $ref: '#/definitions/MobileNumber'
+      billedInd:
+        type: string
+        example: 'Y'
+        description: To indicate whether the period is billed or not
+        enum:
+          - 'Y'
+          - 'N'
+      cycleCode:
+        type: integer
+        example: 3
+        description: Billing Cycle Code
+        pattern: '^\d{1}(\d{1})?$'
+      billSequenceNumber:
+        type: integer
+        example: 56
+        pattern: '^\d{1}(\d{1})?(\d{1})?$'
+        description: >-
+          The unique billing identifier within the Billing Account. The Bill
+          Sequence Number and the financial account number, uniquely identify
+          the Bill entity
+      period:
+        $ref: '#/definitions/Period'
+  MobileNumber:
+    type: object
+    required:
+      - mobileNumber
+      - productType
+    description: Object for holding Mobile Number and its product type
+    properties:
+      mobileNumber:
+        type: string
+        description: The Mobile Number of the customer.
+        example: 3476838911
+        maxLength: 10
+        minLength: 10
+        pattern: '^\d{10}$'
+      productType:
+        type: string
+        description: The Product type G=GSM B=IMEI A=ALL
+        example: G
+        enum:
+          - G
+          - B
+          - A
+  Period:
+    type: object
+    required:
+      - startDate
+      - endDate
+    description: Object that will hold both Start and End date
+    properties:
+      startDate:
+        type: string
+        example: '20180918'
+        description: Start date for the usage in format YYYYMMDD
+        pattern: '^\d{8}$'
+      endDate:
+        type: string
+        example: '20181004'
+        description: End date for the usage in format YYYYMMDD
+        pattern: '^\d{8}$'
+    example:
+      startDate: '20180918'
+      endDate: '20181004'
+  UsageSummaryList:
+    type: object
+    description: Holds usage details of pooled and unpooled buckets and overage array.
+    properties:
+      usagesList:
+        description: An array of usage details for given mobile numbers.
+        type: array
+        items:
+          $ref: '#/definitions/UsageSummaryRecord'
+  UsageSummaryRecord:
+    type: object
+    properties:
+      mobileNumber:
+        $ref: '#/definitions/MobileNumber'
+      pooled:
+        type: array
+        items:
+          $ref: '#/definitions/Bucket'
+        description: Usage object for pooled buckets
+      nonPooled:
+        type: array
+        items:
+          $ref: '#/definitions/Bucket'
+        description: Usage object for Non Pooled buckets
+      overage:
+        type: array
+        items:
+          $ref: '#/definitions/Overage'
+        description: Overage usage object
+  Bucket:
+    type: object
+    description: >-
+      usage bucket possible fields are - weekends,nights,whenever,mobile to
+      mobile,call forward,uma,gprs data,mms messages,sms messages
+    properties:
+      units:
+        type: string
+        enum:
+          - minutes
+          - messages
+          - mb
+          - gb
+          - not-available
+        description: units enum for UI needs
+      typeDescription:
+        type: string
+        example: 'Data ,Voice ,Lond Distance ,Messages ,Roaming ,Toll Free'
+        description: holds the type describing the bucket
+      total:
+        type: number
+        example: 6
+        description: total amount per the subscriber plan
+      usage:
+        type: number
+        example: 2
+        description: used amount per the subscriber plan
+      remaining:
+        type: number
+        example: 4
+        description: calculated remaining amount (total-usage)
+      percentage:
+        type: number
+        example: 4/6
+        description: calculated percentage (total-usage)/total
+      isUnlimited:
+        type: boolean
+        example: false
+        description: unlimited bucket (true) or (false)
+  Overage:
+    type: object
+    description: overage usage per bucket
+    properties:
+      overUsage:
+        type: number
+        example: 6
+        description: The amount of units used above the plan
+      units:
+        type: string
+        enum:
+          - minutes
+          - messages
+          - mb
+          - gb
+          - not-available
+        description: The unit types
+      typeDescription:
+        type: string
+        example: 'Data ,Voice ,Lond Distance ,Messages ,Roaming ,Toll Free'
+        description: holds the type describing the bucket
+      charge:
+        type: number
+        description: The overage amount for the bucket
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    description: oauth2 Authentication
+    tokenUrl: 'https://host:env/v1/oauth2/accesstoken?grant_type=client_credentials'
+    flow: application
+    scopes: {}
+parameters:
+  header-activity-id:
+    in: header
+    name: activityid
+    description: >-
+      Unique id alphanumeric value generated and sent by the partner to identify
+      every the service request uniquely. Sample:
+      XyzA:D1s5s1i-X6AFRvfiPBfs-1234  Pass as is to downstream calls.
+    required: true
+    type: string
+    x-example: A342431
+    format: string
+    minLength: 1
+    maxLength: 256
+  header-X-Authorization:
+    name: X-Authorization
+    in: header
+    description: >-
+      OAuth 2.0 access token with the authentication type set as Bearer (pop
+      token).
+    required: false
+    type: string
+    format: string
+    x-example: aodsidj9038j203jd203dj230djaSFAfa3
+    minLength: 1
+  header-X-Auth-Originator:
+    name: X-Auth-Originator
+    in: header
+    description: >-
+      OAuth 2.0 access token with the authentication type set as Bearer (id
+      token).
+    required: true
+    type: string
+    format: string
+    x-example: aasFAFq3fwsdgsw4GTgw442.sdjbfsdjksg2o34t.dsfbhifh9h2wf92f
+    minLength: 1
+  header-Accept:
+    name: Accept
+    in: header
+    description: Preferred content type _ default to application/json
+    x-example: application/json
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[ \S]+$'
+  header-Accept-Charset:
+    name: Accept-Charset
+    in: header
+    description: Character sets that are acceptable.
+    x-example: 'ISO-8859-1,utf-8;q=0.7,*;q=0.7'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S ]*$'
+  header-Accept-Encoding:
+    name: Accept-Encoding
+    in: header
+    description: List of acceptable encodings. See HTTP compression.
+    x-example: 'gzip,deflate'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S ]*$'
+  header-Accept-Language:
+    name: Accept-Language
+    in: header
+    description: List of acceptable human languages for response
+    x-example: 'en-us,en;q=0.5'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: 'g''^[\S ]*$''.'
+  header-Authorization:
+    name: Authorization
+    in: header
+    description: >-
+      The HTTP Authorization request header contains the credentials to
+      authenticate a user agent with a server (access token).
+    x-example: Bearer mF_9.B5f-4.1JqM
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S ]+$'
+  header-Content-Type:
+    name: Content-Type
+    in: header
+    description: The MIME type of this content
+    x-example: text/xml
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[ \S]+$'
+  header-Date:
+    name: Date
+    in: header
+    description: >-
+      The Date general HTTP header contains the date and time at which the
+      message was originated.
+    x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+    required: false
+    type: string
+    format: date-time
+    pattern: >-
+      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+      [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+  header-If-Modified-Since:
+    name: If-Modified-Since
+    in: header
+    description: >-
+      The If-Modified-Since header specifies date-related conditions to be
+      placed on the execution of a request.  The request will only be executed
+      if the requested resource has not been modified since the date-time
+      specified.  Because the behavior is complex, the details for usage are
+      provided at http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+    x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+    required: false
+    type: string
+    format: date-time
+    pattern: >-
+      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+      [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+  header-If-None-Match:
+    name: If-None-Match
+    in: header
+    description: >-
+      The If-None-Match header specifies an ETag-related condition to be placed
+      on the execution of a request.  The request will NOT be executed if the
+      ETag of the requested resource matches one of those specified in the
+      If-None-Match header.  Because the behavior is complex, the details for
+      usage are provided at
+      http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+    x-example: '*'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-timestamp:
+    name: timestamp
+    in: header
+    description: ms since 1/1/70 adjusted to GMT
+    x-example: '1524599536'
+    required: false
+    type: integer
+    format: int64
+    minimum: 0
+    maximum: 999999999999
+    pattern: '^[\d]*$'
+  header-workflow-id:
+    name: workflow-id
+    in: header
+    description: Business Use Case
+    x-example: ACTIVATION
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-session-id:
+    name: session-id
+    in: header
+    description: >-
+      A value populated by the sender used to track the transactions that occur
+      during a session, a long-lasting interaction that ismaintained by the
+      sender.
+    x-example: 350b91ec-4a64-4b10-a3f3-a78c8db3924a
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-interaction-id:
+    name: interaction-id
+    in: header
+    description: >-
+      Alphanumeric value represent a common transaction id across all calls made
+      from UI, while completing all business activity needs of a particular
+      customer.
+    x-example: cc688d54-50d1-49d4-8c5d-95459d1172e8
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-service-transaction-id:
+    name: service-transaction-id
+    in: header
+    description: Request ID echoed back by server
+    x-example: '23409209723'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'

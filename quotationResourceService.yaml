@@ -1,0 +1,655 @@
+swagger: '2.0'
+info:
+  title: quotationResourceService
+  description: >-
+    This service support the use of the quotation resource. A price estimate
+    (quote) for trade in of products, or a presentation for sale of product
+    offerings to a customer. 
+  version: 1.0.0
+  contact:
+    name: sali weizman
+    url: 'http://www.t-mobile.com'
+    email: sweizma1@t-mobile.com
+  license:
+    name: Proprietary software
+    url: 'https://en.wikipedia.org/wiki/Proprietary_software'
+  termsOfService: >-
+    https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions
+  x-createdBy:
+    dateCreated: 'Sun May 19 11:39:31 2019'
+    createdBy: sweizma1
+    application: Recite
+    appVersion: 1.0.0.2891
+    documentId: 1f32ee78-39d9-4d77-bed9-f8fbbb6218da
+    status: Conceptual - Initial
+    classification: 15.5.4 Tax Calculation Mgmt.
+    profile: Core Business Capability Service
+    serviceLayer: Enterprise - Billing
+tags:
+  - name: retrieveTaxQuotation
+    description: >-
+      this API will provide the tax quotes for charges in case of possible rate
+      plan and/or socs change
+host: dev01.api.t-mobile.com
+basePath: /tax/v2/service
+schemes:
+  - https
+paths:
+  /estimate:
+    post:
+      tags:
+        - retrieveTaxQuotation
+      x-api-pattern: ExecuteFunction
+      summary: >-
+        this API will provide the tax quotes for charges in case of possible
+        rate plan and/or socs change.
+      description: >-
+        This API will retrieve the tax quotes for charges in case of possible
+        rate plan and/or socs change.
+      operationId: retrieveTaxQuotation
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+      parameters:
+        - name: QuotationTaxRequest
+          in: body
+          description: Describe the request stracture for quotation tax.
+          required: true
+          schema:
+            $ref: '#/definitions/QuotationTaxRequest'
+        - $ref: '#/parameters/header-X-Authorization'
+        - $ref: '#/parameters/header-X-Auth-Originator'
+        - $ref: '#/parameters/header-Accept'
+        - $ref: '#/parameters/header-Accept-Charset'
+        - $ref: '#/parameters/header-Accept-Encoding'
+        - $ref: '#/parameters/header-Accept-Language'
+        - $ref: '#/parameters/header-Authorization'
+        - $ref: '#/parameters/header-Date'
+        - $ref: '#/parameters/header-If-Modified-Since'
+        - $ref: '#/parameters/header-If-None-Match'
+        - $ref: '#/parameters/header-activity-id'
+        - $ref: '#/parameters/header-timestamp'
+        - $ref: '#/parameters/header-Content-Type'
+        - $ref: '#/parameters/header-session-id'
+        - $ref: '#/parameters/header-interaction-id'
+        - $ref: '#/parameters/header-workflow-id'
+        - $ref: '#/parameters/header-service-transaction-id'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/QuotationTaxResponse'
+          examples:
+            application/json:
+              financialAccountNumber: '123456789'
+              accountLevelTaxAndFees: '2.5'
+              subscribersTaxList:
+                - mobileNumber: '1234567890'
+                  lineLevelTaxAndFees: '2.0'
+              totalTaxAndFees: '4.5'
+          headers:
+            Content-Encoding:
+              description: The type of encoding used on the data
+              x-example: 'gzip,deflate'
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            Content-Length:
+              description: >-
+                Length of the response body in octets; not supported if
+                Transfer-Endoding = chunked
+              x-example: '9112300000003'
+              type: integer
+              format: int64
+              minimum: 0
+              pattern: '^[\d]*$'
+            Content-Type:
+              description: The MIME type of this content
+              x-example: text/xml
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[ \S]+$'
+            Date:
+              description: >-
+                The Date general HTTP header contains the date and time at which
+                the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            Transfer-Encoding:
+              description: >-
+                The form of encoding used to safely transfer the entity to the
+                user. Currently defined methods are: chunked, compress, deflate,
+                gzip, identity.
+              x-example: chunked
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            service-transaction-id:
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '207':
+          description: Combination of success and failure response.
+          schema:
+            $ref: '#/definitions/QuotationTaxResponse'
+          examples:
+            application/json:
+              financialAccountNumber: '123456789'
+              accountLevelTaxAndFees: '2.5'
+              subscribersTaxList:
+                - mobileNumber: '1234567890'
+                  lineLevelTaxAndFees: '2.0'
+              totalTaxAndFees: '4.5'
+          headers:
+            Content-Encoding:
+              description: The type of encoding used on the data
+              x-example: 'gzip,deflate'
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            Content-Length:
+              description: >-
+                Length of the response body in octets; not supported if
+                Transfer-Endoding = chunked
+              x-example: '9112300000003'
+              type: integer
+              format: int64
+              minimum: 0
+              pattern: '^[\d]*$'
+            Content-Type:
+              description: The MIME type of this content
+              x-example: text/xml
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[ \S]+$'
+            Date:
+              description: >-
+                The Date general HTTP header contains the date and time at which
+                the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            Transfer-Encoding:
+              description: >-
+                The form of encoding used to safely transfer the entity to the
+                user. Currently defined methods are: chunked, compress, deflate,
+                gzip, identity.
+              x-example: chunked
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            service-transaction-id:
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Allow:
+              description: list of supported methods for URI
+              x-example: GET
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            service-transaction-id:
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '409':
+          description: Invalid data
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '409'
+              userMessage: Invalid data
+              systemMessage: Invalid data
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '415':
+          description: Unsupported Media Type
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '415'
+              userMessage: Unsupported Media Type
+              systemMessage: Unsupported Media Type
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '500':
+          description: System Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+      security: []
+definitions:
+  QuotationTaxRequest:
+    description: quotation tax request
+    type: object
+    required:
+      - financialAccountNumber
+      - accountLevelPlanList
+      - subscribersPlanList
+    properties:
+      financialAccountNumber:
+        description: customer financial account number.
+        example: '123456789'
+        type: string
+        minLength: 1
+        maxLength: 10
+        pattern: '^[\S]*$'
+      accountLevelPlanList:
+        type: array
+        description: List of account level services.
+        items:
+          $ref: '#/definitions/serviceDetails'
+      subscribersPlanList:
+        type: array
+        description: List of subscribers and services.
+        items:
+          $ref: '#/definitions/subscriberPlanDetails'
+  subscriberPlanDetails:
+    type: object
+    required:
+      - mobileNumber
+      - servicesList
+    properties:
+      mobileNumber:
+        description: subscriber mobile number where the selected services are applied.
+        type: string
+        minLength: 1
+        maxLength: 10
+        pattern: '^[\S]*$'
+        example: '1234567890'
+      servicesList:
+        type: array
+        description: list of subscribers and services.
+        items:
+          $ref: '#/definitions/serviceDetails'
+  serviceDetails:
+    type: object
+    required:
+      - service
+      - serviceRate
+    properties:
+      service:
+        description: the service code.
+        type: string
+        minLength: 1
+        pattern: '^[\S]*$'
+        example: BDP2
+      serviceRate:
+        description: describe the total rate of current soc.
+        type: number
+        format: double
+        example: '26.54'
+        minimum: -999999999.99
+        maximum: 999999999.99
+  QuotationTaxResponse:
+    type: object
+    required:
+      - financialAccountNumber
+      - subscribersTaxList
+      - accountLevelTaxAndFees
+      - totalTaxAndFees
+    properties:
+      financialAccountNumber:
+        description: Financial account number.
+        example: '123456789'
+        type: string
+        minLength: 1
+        maxLength: 10
+        pattern: '^[\S]*$'
+      accountLevelTaxAndFees:
+        description: the total tax amount.
+        type: number
+        format: double
+        example: '2.5'
+        minimum: -999999999.99
+        maximum: 999999999.99
+      subscribersTaxList:
+        type: array
+        description: List of subscribers and tax values.
+        items:
+          $ref: '#/definitions/subscriberTaxDetails'
+      totalTaxAndFees:
+        description: amount of total tax  for ban level tnd account level.
+        type: number
+        format: double
+        example: '26.54'
+        minimum: -999999999.99
+        maximum: 999999999.99
+  subscriberTaxDetails:
+    type: object
+    required:
+      - mobileNumber
+      - lineLevelTaxAndFees
+    properties:
+      mobileNumber:
+        description: subscriber mobile number where the selected services are applied.
+        type: string
+        minLength: 1
+        maxLength: 10
+        pattern: '^[\S]*$'
+        example: '1234567890'
+      lineLevelTaxAndFees:
+        description: the value of a specific tax for subscriber.
+        type: number
+        format: double
+        example: '26.54'
+        minimum: -999999999.99
+        maximum: 999999999.99
+  Error:
+    description: >-
+      As defined in
+      http://api-standards.apps.px-npe01.cf.t-mobile.com/http/status-codes/error-response-format/
+    type: object
+    required:
+      - code
+      - userMessage
+    properties:
+      code:
+        description: >-
+          A succinct, domain-specific, human-readable text string to identify
+          the type of error for the given status code
+        example: ProductNotFound
+        type: string
+        pattern: '^[\S ]+$'
+      userMessage:
+        description: A human-readable message describing the error.
+        example: Failed to find product.
+        type: string
+        pattern: '^[\S ]+$'
+      systemMessage:
+        description: Text that provides a more detailed technical explanation of the error
+        example: PRODUCT_NOT_FOUND
+        type: string
+      detailLink:
+        description: link to custom information providing greater detail on error or errors
+        example: 'http://aaa.bbb.ccc/'
+        type: string
+  securityDefinitions: {}
+parameters:
+  header-X-Authorization:
+    name: x-authorization
+    in: header
+    description: OAuth 2.0 access token with the authentication type set as Bearer.
+    required: false
+    x-example: abc
+    type: string
+  header-X-Auth-Originator:
+    name: x-auth-originator
+    in: header
+    description: OAuth 2.0 access token with the authentication type set as Bearer.
+    required: true
+    x-example: abc
+    type: string
+  header-Accept:
+    name: Accept
+    in: header
+    description: Preferred content type _ default to application/json.
+    x-example: application/json
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[ \S]+$'
+  header-Accept-Charset:
+    name: Accept-Charset
+    in: header
+    description: Character sets that are acceptable.
+    x-example: 'ISO-8859-1,utf-8;q=0.7,*;q=0.7'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S ]*$'
+  header-Accept-Encoding:
+    name: Accept-Encoding
+    in: header
+    description: List of acceptable encodings. See HTTP compression.
+    x-example: 'gzip,deflate'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S ]*$'
+  header-Accept-Language:
+    name: Accept-Language
+    in: header
+    description: List of acceptable human languages for response.
+    x-example: 'en-us,en;q=0.5'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: 'g''^[\S ]*$''.'
+  header-Authorization:
+    name: Authorization
+    in: header
+    description: >-
+      The HTTP Authorization request header contains the credentials to
+      authenticate a user agent with a server.
+    x-example: Bearer mF_9.B5f-4.1JqM
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S ]+$'
+  header-Date:
+    name: Date
+    in: header
+    description: >-
+      The Date general HTTP header contains the date and time at which the
+      message was originated.
+    x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+    required: false
+    type: string
+    format: date-time
+    pattern: >-
+      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+      [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+  header-If-Modified-Since:
+    name: If-Modified-Since
+    in: header
+    description: >-
+      The If-Modified-Since header specifies date-related conditions to be
+      placed on the execution of a request.  The request will only be executed
+      if the requested resource has not been modified since the date-time
+      specified.  Because the behavior is complex, the details for usage are
+      provided at http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+    x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+    required: false
+    type: string
+    format: date-time
+    pattern: >-
+      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+      [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+  header-If-None-Match:
+    name: If-None-Match
+    in: header
+    description: >-
+      The If-None-Match header specifies an ETag-related condition to be placed
+      on the execution of a request.  The request will NOT be executed if the
+      ETag of the requested resource matches one of those specified in the
+      If-None-Match header.  Because the behavior is complex, the details for
+      usage are provided at
+      http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+    x-example: '*'
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-activity-id:
+    in: header
+    name: activity-id
+    description: >-
+      Unique id alphanumeric value generated and sent by the partner to identify
+      every the service request uniquely. Sample:
+      XyzA:D1s5s1i-X6AFRvfiPBfs-1234  Pass as is to downstream calls.
+    required: true
+    type: string
+    x-example: A342431
+  header-timestamp:
+    in: header
+    name: timestamp
+    description: >-
+      A timestamp provided by sender to track their workflow. If it is empty
+      APIGEE can send current system timestamp.
+    required: false
+    type: string
+  header-Content-Type:
+    name: Content-Type
+    in: header
+    description: The MIME type of this content.
+    x-example: text/xml
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[ \S]+$'
+  header-session-id:
+    name: session-id
+    in: header
+    description: >-
+      A value populated by the sender used to track the transactions that occur
+      during a session, a long-lasting interaction that ismaintained by the
+      sender.
+    x-example: 350b91ec-4a64-4b10-a3f3-a78c8db3924a
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-service-transaction-id:
+    name: service-transaction-id
+    in: header
+    description: Request ID echoed back by server
+    x-example: '23409209723'
+    required: false
+    type: string
+    pattern: '^[\S]*$'
+    minLength: 1
+    maxLength: 256
+  header-workflow-id:
+    name: workflow-id
+    in: header
+    description: Business Use Case
+    x-example: ACTIVATION
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+  header-interaction-id:
+    name: interaction-id
+    in: header
+    description: >-
+      Alphanumeric value represent a common transaction id across all calls made
+      from UI, while completing all business activity needs of a particular
+      customer.
+    x-example: cc688d54-50d1-49d4-8c5d-95459d1172e8
+    required: false
+    type: string
+    minLength: 1
+    maxLength: 256
+    pattern: '^[\S]*$'
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    description: oauth2 Authentication.
+    tokenUrl: 'https://host:env/v1/oauth2/accesstoken?grant_type=client_credentials'
+    flow: application
+    scopes: {}
+x-servers:
+  - url: 'http://127.0.0.1/'
+    description: Test Server 1.

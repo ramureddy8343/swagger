@@ -1,0 +1,762 @@
+swagger: '2.0'
+info:
+  title: retrieve collection information.
+  description: >-
+    retrieve collection information for a BAN as specified in the input for this
+    service.
+  version: 1.0.0
+  contact:
+    name: Amdocs Digital Billing
+    url: 'http://www.t-mobile.com'
+    email: vera.pupko1@t-mobile.com
+  license:
+    name: Proprietary software
+    url: 'https://en.wikipedia.org/wiki/Proprietary_software'
+  termsOfService: >-
+    https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions
+  x-createdBy:
+    dateCreated: 'Mon Jul  1 10:45:29 2019'
+    createdBy: nhaj1
+    application: Recite
+    appVersion: 1.0.0.2891
+    documentId: 8c42a1ed-bdb0-4a04-92a0-7838a4f1110a
+    status: Conceptual - Initial
+    classification: 11.0 Supply Chain Management
+    profile: Core Business Capability Service
+    serviceLayer: Resource - Other
+x-servers:
+  - url: 'http://127.0.0.1/'
+    description: Test Server 1
+tags:
+  - name: collection information
+    description: >-
+      retrieve collection information for a BAN as specified in the input for
+      this service.
+host: dev01.api.t-mobile.com
+basePath: /
+schemes:
+  - https
+paths:
+  /collection/v1/collection-info:
+    post:
+      tags:
+        - collection information
+      x-api-pattern: ExecuteFunction
+      summary: retrieve collection information for a BAN as specified
+      description: retrieve collection information for a BAN as specified
+      operationId: retrieveCollectionInformation
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: GetCollectionInfoInputRequest
+          in: body
+          description: Input to get the collection info of the financial account number.
+          required: true
+          schema:
+            $ref: '#/definitions/GetCollectionInfoInputRequest'
+        - name: Accept
+          in: header
+          description: Preferred content type _ default to application/json
+          x-example: application/json
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[ \S]+$'
+        - in: header
+          name: activityid
+          description: activity id
+          required: true
+          type: string
+          x-example: '123'
+          pattern: '^[\S ]*$'
+        - name: Accept-Charset
+          in: header
+          description: Character sets that are acceptable.
+          x-example: 'ISO-8859-1,utf-8;q=0.7,*;q=0.7'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: Accept-Encoding
+          in: header
+          description: List of acceptable encodings. See HTTP compression.
+          x-example: 'gzip,deflate'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: Accept-Language
+          in: header
+          description: List of acceptable human languages for response
+          x-example: 'en-us,en;q=0.5'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: Authorization
+          in: header
+          description: >-
+            The HTTP Authorization request header contains the credentials to
+            authenticate a user agent with a server.
+          x-example: Bearer mF_9.B5f-4.1JqM
+          required: true
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]+$'
+        - name: Content-Type
+          in: header
+          description: The MIME type of this content
+          x-example: text/xml
+          required: true
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[ \S]+$'
+        - name: Date
+          in: header
+          description: >-
+            The Date general HTTP header contains the date and time at which the
+            message was originated.
+          x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+          required: false
+          type: string
+          format: date-time
+          pattern: >-
+            ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+            (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+            [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+        - name: If-Modified-Since
+          in: header
+          description: >-
+            The If-Modified-Since header specifies date-related conditions to be
+            placed on the execution of a request.  The request will only be
+            executed if the requested resource has not been modified since the
+            date-time specified.  Because the behavior is complex, the details
+            for usage are provided at
+            http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+          x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+          required: false
+          type: string
+          format: date-time
+          pattern: >-
+            ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+            (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+            [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+        - name: If-None-Match
+          in: header
+          description: >-
+            The If-None-Match header specifies an ETag-related condition to be
+            placed on the execution of a request.  The request will NOT be
+            executed if the ETag of the requested resource matches one of those
+            specified in the If-None-Match header.  Because the behavior is
+            complex, the details for usage are provided at
+            http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+          x-example: '*'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: application-id
+          in: header
+          description: >-
+            Identifies the application, system, or tool that is being used to
+            perform the transaction related to this request. Sample values:ACUI,
+            ESERVICE, REBELLION, WARP
+          x-example: REBELLION
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: auth-customer-id
+          in: header
+          description: Customer id _ of the person that is interacting with the system.
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: auth-financial-account-id
+          in: header
+          description: >-
+            Financial account that the customer intends to operate on, while
+            interacting with the system.
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: auth-line-of-service-id
+          in: header
+          description: >-
+            Service Line that the customer intends to operate on, while
+            interacting with the system.
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: authorization-idp
+          in: header
+          description: API chain initiating callers access token
+          x-example: c34e7acd-384b-4c22-8b02-ba3963682508
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: channel-id
+          in: header
+          description: Categorization of access or business stream
+          x-example: IVR
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: dealer-code
+          in: header
+          description: Unique code to identify the dealer/rep user.
+          x-example: '34234322'
+          required: false
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 999999999999
+          pattern: '^[\d]*$'
+        - name: interaction-id
+          in: header
+          description: >-
+            Alphanumeric value represent a common transaction id across all
+            calls made from UI, while completing all business activity needs of
+            a particular customer.
+          x-example: cc688d54-50d1-49d4-8c5d-95459d1172e8
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: master-dealer-code
+          in: header
+          description: >-
+            Unique code to identify the master dealer for a large retail
+            partner. Will not be applicable for TMO channels.
+          x-example: '3571232'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: origin-sender-id
+          in: header
+          description: replaced by _aud_ in authorization
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: segmentation-id
+          in: header
+          description: 'Identifier of customers primary data center.Sample: Polaris,Titan'
+          x-example: Polaris
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: sender-id
+          in: header
+          description: The related business partner or T-Mobile organization
+          x-example: QVXP
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: service-transaction-id
+          in: header
+          description: Request ID echoed back by server
+          x-example: '23409209723'
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: session-id
+          in: header
+          description: >-
+            A value populated by the sender used to track the transactions that
+            occur during a session, a long-lasting interaction that ismaintained
+            by the sender.
+          x-example: 350b91ec-4a64-4b10-a3f3-a78c8db3924a
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: store-id
+          in: header
+          description: Unique identifier for the retail store location.
+          x-example: 0279
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+        - name: terminal-id
+          in: header
+          description: >-
+            Unique identifier for the retail store terminal. Needed for
+            FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile
+            business liaison if there is a need for Partner to pass their retail
+            Store Id).
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: till-id
+          in: header
+          description: >-
+            Unique identifier for the retail register. Needed for FullService 
+            (Tmobile RETAIL channel). Need to discuss with T-Mobile business
+            liaison if there is a need for Partner to pass their retail Store
+            Id).
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: timestamp
+          in: header
+          description: ms since 1/1/70 adjusted to GMT
+          x-example: '1524599536'
+          required: false
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 999999999999
+          pattern: '^[\d]*$'
+        - name: tmo-authorization
+          in: header
+          description: Contains Proof of Possession token generated by API caller
+          x-example: c34e7acd-384b-4c22-8b02-ba3963682508
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: user-id
+          in: header
+          description: >-
+            NT id of the one who is managing the transaction from CARE/RETAIL
+            channels.
+          x-example: Deprecated Header
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S ]*$'
+        - name: workflow-id
+          in: header
+          description: Business Use Case
+          x-example: ACTIVATION
+          required: false
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: '^[\S]*$'
+      responses:
+        '200':
+          description: collection information for a BAN as specified in the input.
+          schema:
+            $ref: '#/definitions/CollectionInfoResponse'
+          examples:
+            application/json: Example
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            Content-Encoding:
+              description: The type of encoding used on the data
+              x-example: 'gzip,deflate'
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            Content-Length:
+              description: >-
+                Length of the response body in octets; not supported if
+                Transfer-Endoding = chunked
+              x-example: '9112300000003'
+              type: integer
+              format: int64
+              minimum: 0
+              pattern: '^[\d]*$'
+            Content-Type:
+              description: The MIME type of this content
+              x-example: text/xml
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[ \S]+$'
+            Date:
+              description: >-
+                The Date general HTTP header contains the date and time at which
+                the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+              type: string
+              format: date-time
+              pattern: >-
+                ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1}
+                (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3}
+                [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$
+            Transfer-Encoding:
+              description: >-
+                The form of encoding used to safely transfer the entity to the
+                user. Currently defined methods are: chunked, compress, deflate,
+                gzip, identity.
+              x-example: chunked
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: '^[\S]*$'
+            service-transaction-id:
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Allow:
+              description: list of supported methods for URI
+              x-example: GET
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+            service-transaction-id:
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+        '406':
+          description: Not Acceptable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '406'
+              userMessage: Not Acceptable
+              systemMessage: Not Acceptable
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '500':
+          description: System Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+              detailLink: 'http://www.tmus.com'
+          headers: {}
+      security:
+        - oauth2: []
+definitions:
+  AgingBucketInfo:
+    description: agingBucketInfo
+    type: object
+    properties:
+      agingBucketCurrent:
+        description: current aging bucket (0-1 days)
+        example: '1.2'
+        type: number
+        format: double
+      agingBucket1To30Days:
+        description: aging bucket of 1-30 days
+        example: '2.3'
+        type: number
+        format: double
+      agingBucket30To60Days:
+        description: aging bucket of 30-60 days
+        example: '3.4'
+        type: number
+        format: double
+      agingBucket60To90Days:
+        description: aging bucket of 60-90 days
+        example: '4.5'
+        type: number
+        format: double
+      agingBucket90PlusDays:
+        description: aging bucket of more than 90 days
+        example: '6.7'
+        type: number
+        format: double
+  CollectionInfoRec:
+    description: collectionInfoRecs
+    type: object
+    properties:
+      dckBackoutHistory:
+        description: history of dishonored check backout activities
+        example: '2'
+        type: integer
+        format: int32
+        minimum: -2147483648
+        maximum: 2147483647
+        pattern: '^[\-+]?[0-9]+$'
+      activityHistoryCode:
+        description: activity history code
+        example: MH
+        type: string
+      activityHistoryDescription:
+        description: description of the activity history
+        example: MANUAL_HANDLING
+        type: string
+  CollectionInfoResponse:
+    description: collection info for a BAN.
+    type: object
+    properties:
+      daysPastDue:
+        description: days past due - the amount of days the client is past due
+        example: '5'
+        type: number
+      collectionPathCode:
+        description: Collection Path Code
+        example: '130'
+        type: string
+      failedPaymentArrangementInd:
+        description: Payment Arrangement Failed Indicator
+        example: 'Y'
+        type: string
+      firstPaymentDefaultInd:
+        description: >-
+          will be N when past due amount > 0 but no payments payment ever done.
+          If ban has posted at least one payment - then this indicator will be Y
+        example: 'Y'
+        type: string
+      agingBucketInfo:
+        description: Aging bucket information.
+        type: object
+        properties:
+          agingBucketCurrent:
+            description: current aging bucket (0-1 days)
+            example: '1.2'
+            type: number
+          agingBucket1To30Days:
+            description: aging bucket of 1-30 days
+            example: '2.3'
+            type: number
+          agingBucket30To60Days:
+            description: aging bucket of 30-60 days
+            example: '3.4'
+            type: number
+          agingBucket60To90Days:
+            description: aging bucket of 60-90 days
+            example: '4.5'
+            type: number
+          agingBucket90PlusDays:
+            description: aging bucket of more than 90 days
+            example: '6.7'
+            type: number
+      collectionInfoRecs:
+        description: An array of collectionInfoRecs objects.
+        type: array
+        items:
+          $ref: '#/definitions/CollectionInfoRec'
+      collectionTreatmentStatus:
+        description: The status of the collection Treatment
+        type: string
+      waiverReasonCode:
+        description: 'The reason the charge was waived, if applicable.'
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: '^[a-zA-Z0-9_\-]*$'
+      waiverReasonDescription:
+        description: The reason description of the waiver
+        type: string
+      nextStepNumber:
+        description: The next step number
+        type: integer
+        format: int32
+        minimum: -2147483648
+        maximum: 2147483647
+        pattern: '^[\-+]?[0-9]+$'
+      nextStepDate:
+        description: The next step date
+        type: string
+        format: date-time
+      lastUpdateDate:
+        description: Date and time when the Port request was last updated
+        type: string
+        format: date-time
+      lastStepNumber:
+        description: The Last step number
+        type: integer
+        format: int32
+        minimum: -2147483648
+        maximum: 2147483647
+        pattern: '^[\-+]?[0-9]+$'
+      pastDue:
+        description: >-
+          Captures the dollar amount associated with the subscription balance
+          type.
+        type: number
+        format: double
+      currentDueDate:
+        description: >-
+          Captured the date associated with the subscription balance details
+          (ie. payment due date).
+        type: string
+        format: date-time
+      currentDue:
+        description: >-
+          Captures the dollar amount associated with the subscription balance
+          type.
+        type: number
+        format: double
+      assignedToAgency:
+        description: agingBucketInfo
+        type: string
+      agencyNumber:
+        description: >-
+          This is used to determine the Agency that controls serialization. This
+          may also be used to indicate system which assigns the serial number
+          (e.g., OPSM - Oracle Pedigree Serial Management system). It should
+          have a value if and only if Item Serial Control Indicator is on. If
+          Item Serial Control Indicator is null (implying that Serial Control
+          Agency must also be null) then it means that the item is not
+          serialized.
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: '^[a-zA-Z\d\-]*$'
+      asdDate:
+        description: >-
+          Captured the date associated with the subscription balance details
+          (ie. payment due date).
+        type: string
+        format: date
+  Error:
+    description: >-
+      As defined in
+      http://api-standards.apps.px-npe01.cf.t-mobile.com/http/status-codes/error-response-format/
+    type: object
+    required:
+      - code
+      - userMessage
+    properties:
+      code:
+        description: >-
+          A succinct, domain-specific, human-readable text string to identify
+          the type of error for the given status code
+        example: ProductNotFound
+        type: string
+        pattern: '^[\S ]+$'
+      userMessage:
+        description: A human-readable message describing the error.
+        example: Failed to find product.
+        type: string
+        pattern: '^[\S ]+$'
+      systemMessage:
+        description: Text that provides a more detailed technical explanation of the error
+        example: PRODUCT_NOT_FOUND
+        type: string
+      detailLink:
+        description: link to custom information providing greater detail on error or errors
+        example: 'http://aaa.bbb.ccc/'
+        type: string
+  GetCollectionInfoInputRequest:
+    description: Input to get the collection info of the financial account number.
+    type: object
+    required:
+      - financialAccountNumber
+    properties:
+      financialAccountNumber:
+        description: The financial account number
+        example: '123456789'
+        type: string
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    description: oauth2 Authentication
+    tokenUrl: 'https://host:env/v1/oauth2/accesstoken?grant_type=client_credentials'
+    flow: application
+    scopes: {}
